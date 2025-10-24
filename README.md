@@ -156,11 +156,11 @@ command-line (shell file) > Hydra configuration (yaml file) > dataclass configur
 
 SLAM-ASR:
 ```
-@article{ma2024embarrassingly,
-  title={An Embarrassingly Simple Approach for LLM with Strong ASR Capacity},
+@article{ma2025speech,
+  title={Speech Recognition Meets Large Language Model: Benchmarking, Models, and Exploration},
   author={Ma, Ziyang and Yang, Guanrou and Yang, Yifan and Gao, Zhifu and Wang, Jiaming and Du, Zhihao and Yu, Fan and Chen, Qian and Zheng, Siqi and Zhang, Shiliang and others},
-  journal={arXiv preprint arXiv:2402.08846},
-  year={2024}
+  journal={Proc. AAAI},
+  year={2025}
 }
 ```
 Mala-ASR:
@@ -181,23 +181,22 @@ LLM-Based Contextual ASR:
   year={2024}
 }
 ```
-CoT-ST:
-```
-@article{du2024cot,
-  title={CoT-ST: Enhancing LLM-based Speech Translation with Multimodal Chain-of-Thought},
-  author={Du, Yexing and Ma, Ziyang and Yang, Yifan and Deng, Keqi and Chen, Xie and Yang, Bo and Xiang, Yang and Liu, Ming and Qin, Bing},
-  journal={arXiv preprint arXiv:2409.19510},
-  year={2024}
-}
-```
-
 SLAM-Omni:
 ```
 @article{chen2024slam,
   title={SLAM-Omni: Timbre-Controllable Voice Interaction System with Single-Stage Training},
   author={Chen, Wenxi and Ma, Ziyang and Yan, Ruiqi and Liang, Yuzhe and Li, Xiquan and Xu, Ruiyang and Niu, Zhikang and Zhu, Yanqiao and Yang, Yifan and Liu, Zhanxun and others},
-  journal={arXiv preprint arXiv:2412.15649},
-  year={2024}
+  journal={Proc. ACL},
+  year={2025}
+}
+```
+CoT-ST:
+```
+@article{du2024cot,
+  title={CoT-ST: Enhancing LLM-based Speech Translation with Multimodal Chain-of-Thought},
+  author={Du, Yexing and Ma, Ziyang and Yang, Yifan and Deng, Keqi and Chen, Xie and Yang, Bo and Xiang, Yang and Liu, Ming and Qin, Bing},
+  journal={Proc. ACL},
+  year={2025}
 }
 ```
 
