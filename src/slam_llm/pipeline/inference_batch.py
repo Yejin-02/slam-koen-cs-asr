@@ -126,6 +126,10 @@ def main(kwargs: DictConfig):
 	logger.info("=====================================")
 	pred_path = kwargs.get('decode_log') + "_pred"
 	gt_path = kwargs.get('decode_log') + "_gt"
+	
+	all_predictions = []
+	all_references = []
+	
 	with open(pred_path, "w") as pred, open(gt_path, "w") as gt:
 		for step, batch in tqdm(enumerate(test_dataloader), total=len(test_dataloader) if train_config.batching_strategy != "dynamic" else ""):
 			for key in batch.keys():
@@ -133,8 +137,33 @@ def main(kwargs: DictConfig):
 			model_outputs = model.generate(**batch)
 			output_text = model.tokenizer.batch_decode(model_outputs, add_special_tokens=False, skip_special_tokens=True)
 			for key, text, target in zip(batch["keys"], output_text, batch["targets"]):
-				pred.write(key + "\t" + text.replace("\n", " ") + "\n")
-				gt.write(key + "\t" + target + "\n")
+				clean_text = text.replace("\n", " ").strip()
+				clean_target = target.strip()
+				pred.write(key + "\t" + clean_text + "\n")
+				gt.write(key + "\t" + clean_target + "\n")
+				all_predictions.append(clean_text)
+				all_references.append(clean_target)
+	
+	# Calculate WER
+	from slam_llm.utils.metric import compute_wer_batch
+	wer_results = compute_wer_batch(all_references, all_predictions)
+	
+	logger.info("=" * 50)
+	logger.info("Evaluation Results:")
+	logger.info(f"Total samples: {wer_results['num_samples']}")
+	logger.info(f"Average WER: {wer_results['wer']:.4f} ({wer_results['wer']*100:.2f}%)")
+	logger.info("=" * 50)
+	
+	# Save WER results to file
+	wer_log_path = kwargs.get('decode_log') + "_wer.txt"
+	with open(wer_log_path, "w") as f:
+		f.write(f"Total samples: {wer_results['num_samples']}\n")
+		f.write(f"Average WER: {wer_results['wer']:.4f} ({wer_results['wer']*100:.2f}%)\n")
+		f.write("\nPer-sample WER:\n")
+		for i, (ref, pred, wer_val) in enumerate(zip(all_references, all_predictions, wer_results['wer_list'])):
+			f.write(f"Sample {i+1}: WER={wer_val:.4f}\n")
+			f.write(f"  Reference: {ref}\n")
+			f.write(f"  Prediction: {pred}\n\n")
 
 
 if __name__ == "__main__":
